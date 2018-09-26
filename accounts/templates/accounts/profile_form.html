@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block body_content %}
+    <form method="post" enctype="multipart/form-data" class="bounds circle--page">
+        {% csrf_token %}
+        <!--submit btn-->
+        <div class="circle--page--header circle--fluid">
+            <div class="circle--fluid--cell circle--fluid--primary">
+                <h2>Profile</h2>
+            </div>
+            <div class="circle--fluid--cell circle--fluid--secondary">
+                <input type="submit" class="button button-primary icon-on-left" value="Save Changes">
+            </div>
+        </div>
+
+        <div class="grid-70">
+            <!--<input type="text" value="Wendy McElroy" placeholder="Full Name" class="circle&#45;&#45;input&#45;&#45;h1">-->
+            <div class="circle&#45;&#45;input&#45;&#45;h1">
+                {{ form.display_name }}
+            </div>
+            <div class="circle--article--body">
+                {{ form.bio }}
+            </div>
+        </div>
+
+        <div class="grid-25 grid-push-5">
+
+            <div class="circle--secondary--module">
+                <div class="circle--primary--avatar">
+                    <a class="button">
+                        Upload Photo
+                        {{ form.avatar }}
+                    </a>
+                </div>
+            </div>
+
+            <div class="circle--secondary--module">
+                <h4>My Skills</h4>
+
+                <ul id="skill_forms" class="circle--clone--list">
+                    {{ skills.management_form }}
+                    {% for sk_form in skills.forms %}
+                        {% for hidden in sk_form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        <li class="skill_forms">
+                            {% if sk_form.instance.pk %}{{ sk_form.DELETE }}{% endif %}
+                            {{ sk_form.skill }}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+
+            </div>
+        </div>
+
+    </form>
+
+    <script>
+        $('.skill_forms').formset({
+            addText: 'Add Skill',
+            deleteText: 'Remove',
+            addCssClass: 'circle--clone--add',
+            deleteCssClass: 'circle--clone--remove',
+            prefix: '{{ skills.prefix }}'
+        });
+    </script>
+{% endblock %}

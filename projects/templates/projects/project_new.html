@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+{% block body_content %}
+    <form method="post" enctype="multipart/form-data" class="bounds circle--page">
+    {% csrf_token %}
+  <div class="circle--actions--bar">
+    <div class="bounds">
+      <div class="grid-100">
+        <input type="submit" class="button button-primary icon-on-left" value="Save">
+        <a class="button button-text" href="index.html">Discard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bounds circle--page circle--article">
+    <div class="grid-70">
+      <div class="circle--article--body">
+        {{ form.title }}
+        {{ form.description }}
+      </div>
+
+      <div class="circle--project--positions">
+        <h2>Positions</h2>
+        {{ positions.management_form }}
+        <ul class="circle--group--list circle--clone--list">
+            {% for position_form in positions %}
+          <li>
+            {{ position_form.title }}
+            {{ position_form.description }}
+              {{ position_form.skill }}
+            <a class="circle--clone--add">Add Position</a>
+            <a class="circle--clone--remove">Remove</a>
+          </li>
+            {% endfor %}
+        </ul>
+        <input type="submit" class="button button-primary icon-on-left" value="Save">
+
+      </div>
+    </div>
+
+    <div class="grid-25 grid-push-5">
+
+      <div class="circle--secondary--module">
+        <h3>Project Timeline</h3>
+        {{ form.time_line_description}}
+      </div>
+
+      <div class="circle--secondary--module">
+        <h3>Applicant Requirements</h3>
+        {{ form.applicant_req }}
+      </div>
+
+    </div>
+  </div>
+    </form>
+{% endblock %}

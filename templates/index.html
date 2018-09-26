@@ -1,0 +1,85 @@
+{% extends 'layout.html' %}
+{% block body_content %}
+  <div class="bounds circle--page">
+    <div class="circle--page--header circle--fluid">
+      <div class="circle--fluid--cell circle--fluid--primary">
+        <h2>Projects</h2>
+      </div>
+      <div class="circle--fluid--cell circle--fluid--secondary">
+          {% if user.is_authenticated %}
+        <a class="button button-primary icon-on-left" href="{% url 'projects:create_project' %}">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 13 13" style="enable-background:new 0 0 13 13;" xml:space="preserve" class="add">
+            <polygon points="7,6 7,0 6,0 6,6 0,6 0,7 6,7 6,13 7,13 7,7 13,7 13,6 "/>
+          </svg>
+          New Project
+        </a>
+              {% else %}
+              <h1> Please create a account to use all the features</h1>
+          {% endif %}
+      </div>
+    </div>
+
+    <div class="grid-25">
+      <div class="circle--filter circle--secondary--module">
+        <h4>Project Needs</h4>
+        <ul class="circle--filter--list">
+            {% url 'projects:all_projects' as test %}
+          <li><a  {% if request.get_full_path == test %}
+                class="selected"
+            {% endif %} >All Needs</a></li>
+          <li><a href="?filter=android"  {% if 'android' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>Android Developer</a></li>
+          <li><a href="?filter=designer"  {% if 'designer' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>Designer</a></li>
+          <li><a href="?filter=java"  {% if 'java' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>Java Developer</a></li>
+          <li><a href="?filter=php"  {% if 'php' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>PHP Developer</a></li>
+          <li><a href="?filter=python"  {% if 'python' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>Python Developer</a></li>
+          <li><a href="?filter=Rails"  {% if 'Rails' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>Rails Developer</a></li>
+          <li><a href="?filter=wordpress"  {% if 'wordpress' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>WordPress Developer</a></li>
+          <li><a href="?filter=ios"  {% if 'ios' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>iOS Developer</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-70 grid-push-5">
+      <table class="u-full-width circle--table">
+        <thead>
+          <tr>
+            <th>Project Title</th>
+            <th class="circle--cell--right">Project Needs</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for project in project_list %}
+            {% if not project.completed %}
+          <tr class="clickable-row" data-href="{% url 'projects:detail' pk=project.pk %}">
+            <td>
+              <h3>{{ project.title }}</h3>
+            </td>
+            <td class="circle--cell--right">
+                {% for position in project.positions.all  %}
+              <span class="secondary-label">{{ position.title }}</span></br>
+                    {% endfor %}
+            </td>
+          </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

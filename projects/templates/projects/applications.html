@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+{% block body_content %}
+  <div class="circle--actions--bar">
+    <nav class="bounds">
+      <ul class="circle--pill--list">
+        <li><a class="selected" href="">Applications</a></li>
+        <li><a href="{% url 'accounts:profile' pk=user.pk %}">Profile</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="bounds circle--page">
+    <div class="circle--page--header grid-100">
+      <h2>Applications</h2>
+    </div>
+
+    <div class="grid-25">
+      <div class="circle--filter circle--secondary--module">
+        <h4>Status</h4>
+        <ul class="circle--filter--list">
+            {% url 'projects:applications' as test %}
+          <li><a href="{% url 'projects:applications' %}" {% if request.get_full_path == test %}
+                class="selected"
+            {% endif %} >New Applications</a></li>
+          <li><a href="?status=Accepted" {% if 'Accepted' in request.get_full_path  %}
+                class="selected"
+            {% endif %} >Accepted</a></li>
+          <li><a href="?status=Rejected" {% if 'Rejected' in request.get_full_path  %}
+                class="selected"
+            {% endif %} >Rejected</a></li>
+        </ul>
+      </div>
+
+      <div class="circle--filter circle--secondary--module">
+        <h4>My Projects</h4>
+        <ul class="circle--filter--list">
+        <li><a class="selected">All Projects</a></li>
+            {% for project in projects  %}
+               <li><a href="?pk={{ project.pk }}"> {{ project.title }}</a></li>
+            {% endfor %}
+        </ul>
+      </div>
+
+      <div class="circle--filter circle--secondary--module">
+        <h4>Project Needs</h4>
+        <ul class="circle--filter--list">
+           {% url 'projects:applications' as test %}
+          <li><a  {% if request.get_full_path == test %}
+                class="selected"
+            {% endif %} >All Needs</a></li>
+          <li><a href="?filter=android"  {% if 'android' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>Android Developer</a></li>
+          <li><a href="?filter=designer"  {% if 'designer' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>Designer</a></li>
+          <li><a href="?filter=java"  {% if 'java' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>Java Developer</a></li>
+          <li><a href="?filter=php"  {% if 'php' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>PHP Developer</a></li>
+          <li><a href="?filter=python"  {% if 'python' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>Python Developer</a></li>
+          <li><a href="?filter=Rails"  {% if 'Rails' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>Rails Developer</a></li>
+          <li><a href="?filter=wordpress"  {% if 'wordpress' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>WordPress Developer</a></li>
+          <li><a href="?filter=ios"  {% if 'ios' in request.get_full_path  %}
+                class="selected"
+            {% endif %}>iOS Developer</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="grid-70 grid-push-5">
+      <table class="u-full-width circle--table">
+        <thead>
+          <tr>
+            <th>Applicant</th>
+            <th class="circle--cell--right">Applicant Position</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for application in application_list  %}
+
+          <tr class="clickable-row" data-href="{% url 'projects:application_detail' pk=application.pk %}">
+            <td>
+              <h3>{{ application.candidate }}</h3>
+              <p>{{ application.position.project }}</p>
+            </td>
+            <td class="circle--cell--right">
+              <span class="secondary-label">{{ application.position.title }}</span>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+{% endblock %}

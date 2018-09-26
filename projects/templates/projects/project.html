@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+{% block body_content %}
+{% if project.creator_id == request.user.pk %}
+  <div class="circle--actions--bar">
+    <div class="bounds">
+      <div class="grid-100">
+        <a class="button" href="{% url 'projects:edit_project' pk=project.pk %}">Edit Project</a>
+        <a class="button button-text" href="{% url 'projects:delete' pk=project.pk %}">Delete Project</a>
+
+      </div>
+    </div>
+  </div>
+ {% endif %}
+  <div class="bounds circle--page circle--article">
+    <div class="grid-70">
+      <div class="circle--article--header">
+        <h4 class="circle--article--section">Project</h4>
+        <h1 class="circle--article--title">{{ project.title }}</h1>
+          <p class="circle--article--byline">Project Owner: <a>{{ project.creator }}</a></p>
+      </div>
+
+      <div class="circle--article--body">
+        <p>{{ project.description }}</p>
+
+        </div>
+
+      <div class="circle--project--positions">
+        <h2>Positions</h2>
+
+        <ul class="circle--group--list">
+            {% for position in project.positions.all %}
+          <li>
+            <h3>{{ position }}</h3>
+            <p>{{ position.description }}</p>
+              {% if not position.filled and project.creator_id != request.user.pk %}
+            <a href="{% url 'projects:apply' pk=project.pk position_pk=position.pk %}" class="button button-primary">Apply</a>
+                  {% elif project.creator_id == request.user.pk and not position.filled %}
+                  <a href="{% url 'projects:applications' %}" class="button button-primary">see applications</a>
+                  {% else %}
+                  <a href="" class="button button-primary">Filled</a>
+          {% endif %}
+          </li>
+            {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="grid-25 grid-push-5">
+      <div class="circle--secondary--module">
+        <h3>Project Needs</h3>
+
+        <ul class="circle--link--list">
+            {% for position in project.positions.all%}
+          <li><a>{{ position.skill }}</a></li>
+            {% endfor %}
+        </ul>
+      </div>
+
+      <div class="circle--secondary--module">
+        <h3>Project Timeline</h3>
+        <p>{{ project.time_line_description }}</p>
+      </div>
+
+      <div class="circle--secondary--module">
+        <h3>Applicant Requirements</h3>
+        <p>{{ project.applicant_req }}</p>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

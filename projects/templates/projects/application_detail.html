@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+{% block body_content %}
+  <div class="circle--actions--bar">
+  </div>
+
+  <div class="bounds circle--page">
+    <div class="circle--page--header circle--fluid">
+      <div class="circle--fluid--cell circle--fluid--primary">
+        <h2>Candidate Profile</h2>
+      </div>
+
+    </div>
+
+    <div class="grid-70">
+      <h1>{{ application.candidate.display_name }}</h1>
+      <div class="circle--article--body">
+        <p>{{ application.candidate.bio }}</p>
+
+        </div>
+
+      <h2>Project application for positon </h2>
+      <table class="u-full-width circle--table">
+        <thead>
+          <tr>
+            <th>Application role</th>
+            <th class="circle--cell--right">Accept or Reject</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <h3>{{ application.position.title }}</h3>
+            </td>
+            <td class="circle--cell--right">
+                <span class="secondary-label"><ul>
+                    <li><a href="{% url 'projects:application_decision' pk=application.pk decision='Accepted' %}">Accept</a></li>
+                    <li><a href="{% url 'projects:application_decision' pk=application.pk decision='Rejected' %}">
+                    Reject
+                </a></li>
+
+
+                </ul></span>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-25 grid-push-5">
+
+      <div class="circle--secondary--module">
+        <div class="circle--primary--avatar">
+
+        </div>
+      </div>
+
+      <div class="circle--secondary--module">
+        <h4>Candidate Skills</h4>
+        <ul class="unloaded">
+            {% for user_skill in application.candidate.user_skill_relation.all %}
+          <li>{{ user_skill.skill }}</li>
+            {% endfor %}
+        </ul>
+      </div>
+
+     
+    </div>
+
+  </div>
+{% endblock %}
