@@ -1,7 +1,0 @@
-{% extends 'layout.html' %}
-{% block body_content %}
-    <form method="post" enctype="multipart/form-data" class="bounds circle--page">
-    {% csrf_token %}
-    {{ form.as_p }}
-    </form>
-{% endblock %}

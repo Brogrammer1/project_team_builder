@@ -1,24 +1,17 @@
 {% extends "layout.html" %}
 
 {% block body_content %}
-    <form method="post" enctype="multipart/form-data" class="bounds circle--page">
+    <form method="post" enctype="multipart/form-data"
+          class="bounds circle--page">
         {% csrf_token %}
-   {{ form.as_p }}
-                <ul id="skill_forms" class="circle--clone--list">
-                    <li> {{ skills }}</li>
+        {{ form.as_p }}
+        <ul id="skill_forms" class="circle--clone--list">
+            <li> {{ skills }}</li>
 
-                </ul>
-<input type="submit" class="button button-primary icon-on-left" value="Save Changes">
+        </ul>
+        <input type="submit" class="button button-primary icon-on-left"
+               value="Save Changes">
 
     </form>
 
-    <script>
-        $('.skill_forms').formset({
-            addText: 'Add Skill',
-            deleteText: 'Remove',
-            addCssClass: 'circle--clone--add',
-            deleteCssClass: 'circle--clone--remove',
-            prefix: '{{ skills.prefix }}'
-        });
-    </script>
 {% endblock %}
